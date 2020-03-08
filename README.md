@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: Klemensas/action-autotag@stable
+    - uses: Klemensas/action-autotag@latest
       with:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
@@ -37,7 +37,7 @@ This **order** is important!
 
 ```yaml
 - uses: actions/checkout@v2
-- uses: Klemensas/action-autotag@stable
+- uses: Klemensas/action-autotag@latest
 ```
 
 > If the repository is not checked out first, the autotagger cannot find the package.json file.
@@ -47,7 +47,7 @@ This **order** is important!
 The `GITHUB_TOKEN` must be passed in. Without this, it is not possible to create a new tag. Make sure the autotag action looks like the following example:
 
 ```yaml
-- uses: Klemensas/action-autotag@stable
+- uses: Klemensas/action-autotag@latest
   with:
     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
@@ -63,7 +63,7 @@ There are several options to customize how the tag is created.
     By default, autotag will look for the `package.json` file in the project root. If the file is located in a subdirectory, this option can be used to point to the correct file.
 
     ```yaml
-    - uses: Klemensas/action-autotag@stable
+    - uses: Klemensas/action-autotag@latest
       with:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         package_root: "/path/to/subdirectory"
@@ -74,7 +74,7 @@ There are several options to customize how the tag is created.
     By default, `package.json` uses [semantic versioning](https://semver.org/), such as `1.0.0`. A prefix can be used to add text before the tag name. For example, if `tag_prefix` is set to `v`, then the tag would be labeled as `v1.0.0`.
 
     ```yaml
-    - uses: Klemensas/action-autotag@stable
+    - uses: Klemensas/action-autotag@latest
       with:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         tag_prefix: "v"
@@ -85,7 +85,7 @@ There are several options to customize how the tag is created.
     Text can also be applied to the end of the tag by setting `tag_suffix`. For example, if `tag_suffix` is ` (beta)`, the tag would be `1.0.0 (beta)`. Please note this example violates semantic versioning and is merely here to illustrate how to add text to the end of a tag name if you _really_ want to.
 
     ```yaml
-    - uses: Klemensas/action-autotag@stable
+    - uses: Klemensas/action-autotag@latest
       with:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         tag_suffix: " (beta)"
@@ -97,11 +97,24 @@ There are several options to customize how the tag is created.
     changelog will be generated from the commits between the latest tag and the new tag (HEAD). Setting this option will override it witha custom message.
 
     ```yaml
-    - uses: Klemensas/action-autotag@stable
+    - uses: Klemensas/action-autotag@latest
       with:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         tag_message: "Custom message goes here."
     ```
+1. `changelog_structure`
+
+    Provide a custom changelog format when not using `tag_message`.
+    This can interpolate strings, supported strings are `{{message}}`, `{{messageHeadline}}`, `{{author}}` and `{{sha}}`.
+    Defaults to `**1) {{message}}** {{author}}\n(SHA: {{sha}})\n`.
+
+    ```yaml
+    - uses: Klemensas/action-autotag@latest
+      with:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        changelog_structure: "**{{messageHeadline}}** {{author}}\n"
+    ```
+
 
 1. `version`
 
@@ -109,7 +122,7 @@ There are several options to customize how the tag is created.
     Useful for non-JavaScript projects where version may be output by a previous action.
 
     ```yaml
-    - uses: Klemensas/action-autotag@stable
+    - uses: Klemensas/action-autotag@latest
       with:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         version: "${{ steps.previous_step.outputs.version }}"
