@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: sudoorgza/action-autotag@stable
         with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 To make this work, the workflow must have the checkout action _before_ the autotag action.
@@ -49,7 +49,7 @@ The `GITHUB_TOKEN` must be passed in. Without this, it is not possible to create
 ```yaml
 - uses: sudoorgza/action-autotag@stable
   with:
-    GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    github_token: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 The action will automatically extract the token at runtime. **DO NOT MANUALLY ENTER YOUR TOKEN.** If you put the actual token in your workflow file, you'll make it accessible (in plaintext) to anyone who ever views the repository (it will be in your git history).
@@ -58,6 +58,16 @@ The action will automatically extract the token at runtime. **DO NOT MANUALLY EN
 
 There are several options to customize how the tag is created.
 
+1. `github_token`
+
+   By default, will use GITHUB_TOKEN or INPUT_GITHUB_TOKEN from the environment variables.
+
+   ```yaml
+   - uses: sudoorgza/action-autotag@stable
+     with:
+       github_token: "${{ secrets.GITHUB_TOKEN }}"
+   ```
+
 1. `package_root`
 
    By default, autotag will look for the `package.json` file in the project root. If the file is located in a subdirectory, this option can be used to point to the correct file.
@@ -65,7 +75,7 @@ There are several options to customize how the tag is created.
    ```yaml
    - uses: sudoorgza/action-autotag@stable
      with:
-       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+       github_token: "${{ secrets.GITHUB_TOKEN }}"
        package_root: "/path/to/subdirectory"
    ```
 
@@ -76,7 +86,7 @@ There are several options to customize how the tag is created.
    ```yaml
    - uses: sudoorgza/action-autotag@stable
      with:
-       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+       github_token: "${{ secrets.GITHUB_TOKEN }}"
        overwrite: "true"
    ```
 
@@ -87,7 +97,7 @@ There are several options to customize how the tag is created.
    ```yaml
    - uses: sudoorgza/action-autotag@stable
      with:
-       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+       github_token: "${{ secrets.GITHUB_TOKEN }}"
        tag_prefix: "v"
    ```
 
@@ -98,7 +108,7 @@ There are several options to customize how the tag is created.
    ```yaml
    - uses: sudoorgza/action-autotag@stable
      with:
-       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+       github_token: "${{ secrets.GITHUB_TOKEN }}"
        tag_suffix: " (beta)"
    ```
 
@@ -110,7 +120,7 @@ There are several options to customize how the tag is created.
    ```yaml
    - uses: sudoorgza/action-autotag@stable
      with:
-       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+       github_token: "${{ secrets.GITHUB_TOKEN }}"
        tag_message: "Custom message goes here."
    ```
 
@@ -123,7 +133,7 @@ There are several options to customize how the tag is created.
    ```yaml
    - uses: sudoorgza/action-autotag@stable
      with:
-       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+       github_token: "${{ secrets.GITHUB_TOKEN }}"
        changelog_structure: "**{{messageHeadline}}** {{author}}\n"
    ```
 
@@ -135,7 +145,7 @@ There are several options to customize how the tag is created.
    ```yaml
    - uses: sudoorgza/action-autotag@stable
      with:
-       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+       github_token: "${{ secrets.GITHUB_TOKEN }}"
        version: "${{ steps.previous_step.outputs.version }}"
    ```
 
